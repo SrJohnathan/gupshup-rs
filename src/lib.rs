@@ -4,9 +4,6 @@ use crate::core::MessageType;
 mod core;
 pub mod models;
 
-
-
-
  pub fn deserialize(value: &Value) -> MessageType {
      core::init(value)
  }
