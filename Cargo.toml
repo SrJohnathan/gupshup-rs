@@ -2,6 +2,11 @@
 name = "gupshup-rs"
 version = "0.0.1"
 edition = "2021"
+authors = ["Antonio Johnathan <johnathan.stark42@gmail.com>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/SrJohnathan/gupshup-rs"
+keywords = ["whatsapp","gupshup"]
+autotests = false
 
 [dependencies]
 serde = {version = "1.0" , features = ["derive"]}
