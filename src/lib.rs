@@ -1,8 +1,29 @@
 use serde_json::Value;
-use crate::core::MessageType;
+use crate::models::{Audio, ButtonReply, Delivered, Enqueued, Failed, File, Image, ListReply, Location, MessageEvent, MessageGP, ParentMessage, QuickReply, Read, Sent, Text, Video};
 
 mod core;
 pub mod models;
+
+
+#[derive(Debug)]
+pub enum MessageType {
+    Enqueued(ParentMessage<MessageEvent<Enqueued>>),
+    Failed(ParentMessage<MessageEvent<Failed>>),
+    Sent(ParentMessage<MessageEvent<Sent>>),
+    Delivered(ParentMessage<MessageEvent<Delivered>>),
+    Read(ParentMessage<MessageEvent<Read>>),
+    Text(ParentMessage<MessageGP<Text>>),
+    Image(ParentMessage<MessageGP<Image>>),
+    File(ParentMessage<MessageGP<File>>),
+    Audio(ParentMessage<MessageGP<Audio>>),
+    Video(ParentMessage<MessageGP<Video>>),
+    Location(ParentMessage<MessageGP<Location>>),
+    QuickReply(ParentMessage<MessageGP<QuickReply>>),
+    ButtonReply(ParentMessage<MessageGP<ButtonReply>>),
+    ListReply(ParentMessage<MessageGP<ListReply>>),
+    Unknown,
+}
+
 
  pub fn deserialize(value: &Value) -> MessageType {
      core::init(value)

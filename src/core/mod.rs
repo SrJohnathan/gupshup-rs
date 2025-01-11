@@ -1,27 +1,6 @@
 use crate::models::*;
 use serde_json::Value;
-
-
-
-#[derive(Debug)]
-pub enum MessageType {
-    Enqueued(ParentMessage<MessageEvent<Enqueued>>),
-    Failed(ParentMessage<MessageEvent<Failed>>),
-    Sent(ParentMessage<MessageEvent<Sent>>),
-    Delivered(ParentMessage<MessageEvent<Delivered>>),
-    Read(ParentMessage<MessageEvent<Read>>),
-    Text(ParentMessage<MessageGP<Text>>),
-    Image(ParentMessage<MessageGP<Image>>),
-    File(ParentMessage<MessageGP<File>>),
-    Audio(ParentMessage<MessageGP<Audio>>),
-    Video(ParentMessage<MessageGP<Video>>),
-    Location(ParentMessage<MessageGP<Location>>),
-    QuickReply(ParentMessage<MessageGP<QuickReply>>),
-    ButtonReply(ParentMessage<MessageGP<ButtonReply>>),
-    ListReply(ParentMessage<MessageGP<ListReply>>),
-    Unknown,
-}
-
+use crate::MessageType;
 
 fn determine_message_type(message: &Value) -> MessageType {
     if let Some(c) = message.get("type").and_then(|v| v.as_str()) {
