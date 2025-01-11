@@ -33,7 +33,7 @@ Here is an example of how to use the library to process messages directly in an 
 
 ```rust
 pub async fn web_hook(task: serde_json::Value) {
-    match gupshup::deserialize(&task) {
+    match gupshup_rs::deserialize(&task) {
         MessageType::Enqueued(x) => {
             println!("Queued message: {:?}", x);
         }

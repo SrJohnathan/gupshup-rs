@@ -32,7 +32,7 @@ Aqui está um exemplo de como usar a biblioteca para processar mensagens diretam
 
 ```rust
 pub async fn web_hook(task: serde_json::Value) {
-    match gupshup::deserialize(&task) {
+    match gupshup_rs::deserialize(&task) {
         MessageType::Enqueued(x) => {
             println!("Mensagem enfileirada: {:?}", x);
         }
