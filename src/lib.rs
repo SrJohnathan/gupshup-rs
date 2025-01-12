@@ -1,9 +1,11 @@
+use crate::models::{
+    Audio, ButtonReply, Delivered, Enqueued, Failed, File, Image, ListReply, Location,
+    MessageEvent, MessageGP, ParentMessage, QuickReply, Read, Sent, Text, Video,
+};
 use serde_json::Value;
-use crate::models::{Audio, ButtonReply, Delivered, Enqueued, Failed, File, Image, ListReply, Location, MessageEvent, MessageGP, ParentMessage, QuickReply, Read, Sent, Text, Video};
 
 mod core;
 pub mod models;
-
 
 #[derive(Debug)]
 pub enum MessageType {
@@ -24,12 +26,9 @@ pub enum MessageType {
     Unknown,
 }
 
-
- pub fn deserialize(value: &Value) -> MessageType {
-     core::init(value)
- }
-
-
+pub fn deserialize(value: &Value) -> MessageType {
+    core::init(value)
+}
 
 /*pub fn add(left: u64, right: u64) -> u64 {
     left + right
