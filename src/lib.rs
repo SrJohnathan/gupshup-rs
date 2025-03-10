@@ -1,11 +1,13 @@
-use crate::models::{
-    Audio, ButtonReply, Delivered, Enqueued, Failed, File, Image, ListReply, Location,
-    MessageEvent, MessageGP, ParentMessage, QuickReply, Read, Sent, Text, Video,
-};
+use reqwest::Client;
+use crate::models::{Audio, ButtonReply, Delivered, Enqueued, Failed, File, GupshupMessage, Image, ListReply, Location, MessageEvent, MessageGP, ParentMessage, QuickReply, Read, ResponseMessage, Sent, Text, Video};
 use serde_json::Value;
+use crate::extensions::remove_first_nine_from_brazilian_phone;
 
 mod core;
 pub mod models;
+
+mod extensions;
+
 
 #[derive(Debug)]
 pub enum MessageType {
@@ -44,3 +46,57 @@ mod tests {
         assert_eq!(result, 4);
     }
 }*/
+
+impl GupshupMessage {
+    pub fn new (app:&str,phone_whatsapp:&str,api_key:&str) ->Self {
+        Self {
+            channel: "whatsapp".to_string(),
+            phone_whatsapp: phone_whatsapp.to_string(),
+            src_name: app.to_string(),
+            api_key: api_key.to_string(),
+        }
+    }
+
+
+    pub async fn send_no_time<T: serde::Serialize + Send + 'static>(&self,send_phone:&str,message:T) -> Result<ResponseMessage, String> {
+        let req: Client = Client::new();
+
+        let message = serde_json::to_string(&message).unwrap();
+
+        let tmp = remove_first_nine_from_brazilian_phone( send_phone );
+        let phone = tmp.as_str();
+
+        let params =
+            [("channel", "whatsapp"),
+                ("source", self.phone_whatsapp.as_str()),
+                ("destination", phone) ,
+                ("message", &message),
+                ("disablePreview", "true"),
+                ("src.name", self.src_name.as_str()  ) ];
+
+
+
+
+        let response = req.post("https://api.gupshup.io/wa/api/v1/msg")
+            .header("apikey", self.api_key.as_str())
+            .header("Content-Type", "application/x-www-form-urlencoded")
+            // .header("Content-Length", content_length.to_string())
+            .form(&params)
+            .send().await;
+
+
+        match response {
+            Ok(x) => {
+              match    x.json::<ResponseMessage>().await {
+                  Ok(xx) => {
+                      Ok(xx)
+                  }
+                  Err(ee) => {
+                      Err(ee.to_string())
+                  }
+              }
+            }
+            Err(e) => { Err(e.to_string()) }
+        }
+    }
+}

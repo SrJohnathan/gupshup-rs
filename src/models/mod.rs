@@ -167,12 +167,153 @@ pub struct Location {
 
 
 
+// SEND MODELS
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GupshupMessage {
+    pub channel: String,
+    pub phone_whatsapp: String,
+    #[serde(rename = "src.name")]
+    pub src_name: String,
+    pub api_key: String,
+
+}
+
+//TEXT
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct MessageText {
+    #[serde(rename = "type")]
+    pub type_field: String,
+    pub text: String,
+
+}
 
 
+// MIDIA IMAGE
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ImageMidia {
+    #[serde(rename = "type")]
+    pub type_field: String,
+    pub original_url: String,
+    pub preview_url: String,
+    pub caption: String,
+}
+
+//VIDEO - DOCUMENT - AUDIO
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct MidiaType {
+    #[serde(rename = "type")]
+    pub type_field: String,
+    pub url: String,
+    pub filename: Option<String>,
+}
 
 
+// Button
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ButtonWP<T> {
+    #[serde(rename = "type")]
+    pub type_field: String,
+    pub msgid: String,
+    pub content: T, // ContentBT  para botoẽs do tipo texto || ContentMD para midia
+    pub options: Vec<OptionButton>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ContentBT {
+    #[serde(rename = "type")]
+    pub type_field: String,
+    pub header: String,
+    pub text: String,
+    pub caption: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ContentMD {
+    #[serde(rename = "type")]
+    pub type_field: String,
+    pub url: String,
+    pub caption: String,
+}
+
+/*#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OptionBT {
+    #[serde(rename = "type")]
+    pub type_field: String,
+    pub title: String,
+}
+*/
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OptionButton {
+    pub postback_text: String,
+    pub title: String,
+}
 
 
+//LIST
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct MessageList {
+    #[serde(rename = "type")]
+    pub type_field: String,
+    pub title: String,
+    pub body: String,
+    pub msgid: Option<String>,
+    pub global_buttons: Vec<GlobalButton>,
+    pub items: Vec<Item>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GlobalButton {
+    #[serde(rename = "type")]
+    pub type_field: String,
+    pub title: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Item {
+    pub title: String,
+    pub subtitle: String,
+    pub options: Vec<OptionList>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OptionList {
+    #[serde(rename = "type")]
+    pub type_field: String,
+    pub title: String,
+    pub description: Option<String>,
+    pub postback_text: Option<String>,
+}
+
+
+// RESPONSE
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ResponseMessage {
+    pub status: String,
+    #[serde(rename = "messageId")]
+    pub message_id: String,
+}
 
 
 
