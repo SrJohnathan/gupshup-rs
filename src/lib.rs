@@ -1,5 +1,5 @@
-use reqwest::Client;
-use crate::models::{Audio, ButtonReply, Delivered, Enqueued, Failed, File, GupshupMessage, Image, ListReply, Location, MessageEvent, MessageGP, ParentMessage, QuickReply, Read, ResponseMessage, Sent, Text, Video};
+use reqwest::{Client, Error, Response};
+use crate::models::{Audio, ButtonReply, Delivered, Enqueued, Failed, File, Image, ListReply, Location, MessageEvent, MessageGP, ParentMessage, QuickReply, Read, ResponseMessage, Sent, Text, Video};
 use serde_json::Value;
 use crate::extensions::remove_first_nine_from_brazilian_phone;
 
@@ -47,6 +47,9 @@ mod tests {
     }
 }*/
 
+
+pub use models::GupshupMessage;
+
 impl GupshupMessage {
     pub fn new (app:&str,phone_whatsapp:&str,api_key:&str) ->Self {
         Self {
@@ -74,16 +77,12 @@ impl GupshupMessage {
                 ("disablePreview", "true"),
                 ("src.name", self.src_name.as_str()  ) ];
 
-
-
-
         let response = req.post("https://api.gupshup.io/wa/api/v1/msg")
             .header("apikey", self.api_key.as_str())
             .header("Content-Type", "application/x-www-form-urlencoded")
             // .header("Content-Length", content_length.to_string())
             .form(&params)
             .send().await;
-
 
         match response {
             Ok(x) => {
@@ -99,4 +98,26 @@ impl GupshupMessage {
             Err(e) => { Err(e.to_string()) }
         }
     }
+
+    pub async fn set_read_message<T:  Send + 'static>(&self,message_id:String) -> Result<(), String> {
+        let req: Client = Client::new();
+
+        let response = req.put(format!("https://api.gupshup.io/wa/app/{}/msg/{message_id}/read",self.src_name).as_str())
+            .header("apikey", self.api_key.as_str())
+            .send().await;
+
+        match response {
+            Ok(x) => {
+                if x.status() == reqwest::StatusCode::ACCEPTED {
+                    Ok(())
+                }else {
+                     Err(String::from("Status code unexpected"))
+                }
+            }
+            Err(e) => {
+                Err(e.to_string())
+            }
+        }
+    }
+
 }
