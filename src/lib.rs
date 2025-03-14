@@ -66,13 +66,12 @@ impl GupshupMessage {
 
         let message = serde_json::to_string(&message).unwrap();
 
-        let tmp = remove_first_nine_from_brazilian_phone( send_phone );
-        let phone = tmp.as_str();
+
 
         let params =
             [("channel", "whatsapp"),
                 ("source", self.phone_whatsapp.as_str()),
-                ("destination", phone) ,
+                ("destination", send_phone) ,
                 ("message", &message),
                 ("disablePreview", "true"),
                 ("src.name", self.src_name.as_str()  ) ];
