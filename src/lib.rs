@@ -8,6 +8,8 @@ pub mod models;
 
 mod extensions;
 
+pub mod templates; 
+
 
 #[derive(Debug)]
 pub enum MessageType {

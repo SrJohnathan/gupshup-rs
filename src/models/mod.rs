@@ -2,6 +2,8 @@
 use serde::{Deserialize, Serialize};
 
 
+pub mod template;
+
 #[allow(non_snake_case)]
 #[derive(Serialize, Deserialize, Clone)]
 pub struct MessageGupshup {
