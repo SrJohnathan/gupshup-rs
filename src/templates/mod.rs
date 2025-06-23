@@ -4,7 +4,7 @@ use serde_json::Value;
 use crate::models::template::CreateTemplateResponse;
 
 pub async fn get_gupshup_templates(token: &str, app_id: &str) -> Result<Value, Error> {
-    let url = format!("https://partner.gupshup.io/partner/account/api/partnerApps{}/templates", app_id);
+    let url = format!("https://partner.gupshup.io/partner/app/{}/templates", app_id);
 
     let client = Client::new();
 
