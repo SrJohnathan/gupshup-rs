@@ -27,7 +27,7 @@ pub async fn get_gupshup_templates(token: &str, app_id: &str) -> Result<Value, E
 pub  struct Res 
 {
     status:String,
-    messageId: String
+    pub messageId: String
 }
 
 

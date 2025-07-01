@@ -1,12 +1,12 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize,Serialize)]
 pub struct CreateTemplateResponse {
     pub status: String,
     pub template: Template,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize,Serialize)]
 pub struct Template {
     pub appId: String,
     pub elementName: String,

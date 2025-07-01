@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use reqwest::{Client, Error, Response};
 use crate::models::{Audio, ButtonReply, Delivered, Enqueued, Failed, File, Image, ListReply, Location, MessageEvent, MessageGP, ParentMessage, QuickReply, Read, ResponseMessage, Sent, Text, Video};
 use serde_json::Value;
@@ -51,6 +52,7 @@ mod tests {
 
 
 pub use models::GupshupMessage;
+use crate::templates::Res;
 
 impl GupshupMessage {
     pub fn new (app:&str,phone_whatsapp:&str,api_key:&str) ->Self {
@@ -99,7 +101,7 @@ impl GupshupMessage {
             Err(e) => { Err(e.to_string()) }
         }
     }
-
+    
     pub async fn set_read_message<T:  Send + 'static>(&self,message_id:String) -> Result<(), String> {
         let req: Client = Client::new();
 
