@@ -96,6 +96,7 @@ pub async fn create_gupshup_text_template(
     example_header: Option<&str>,
     allow_category_change: Option<bool>,
     enable_sample: Option<bool>,
+    buttons: Option<&str>, // NOVO
 ) -> Result<CreateTemplateResponse, Error> {
     let url = format!(
         "https://partner.gupshup.io/partner/app/{}/templates",
@@ -124,6 +125,10 @@ pub async fn create_gupshup_text_template(
     }
     if let Some(true) = enable_sample {
         params.insert("enableSample", "true");
+    }
+
+    if let Some(btns) = buttons {
+        params.insert("buttons", btns);
     }
 
     let resp = client
