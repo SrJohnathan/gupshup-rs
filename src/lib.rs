@@ -91,7 +91,7 @@ impl GupshupMessage {
         }
     }
     
-    pub async fn set_read_message<T:  Send + 'static>(&self,app_id:String,message_id:String) -> Result<(), String> {
+    pub async fn set_read_message(&self,app_id:String,message_id:String) -> Result<(), String> {
         let req: Client = Client::new();
 
         let response = req.put(format!("https://api.gupshup.io/wa/app/{}/msg/{}/read",app_id,message_id).as_str())
