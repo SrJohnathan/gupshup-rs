@@ -91,10 +91,10 @@ impl GupshupMessage {
         }
     }
     
-    pub async fn set_read_message<T:  Send + 'static>(&self,message_id:String) -> Result<(), String> {
+    pub async fn set_read_message<T:  Send + 'static>(&self,app_id:String,message_id:String) -> Result<(), String> {
         let req: Client = Client::new();
 
-        let response = req.put(format!("https://api.gupshup.io/wa/app/{}/msg/{message_id}/read",self.src_name).as_str())
+        let response = req.put(format!("https://api.gupshup.io/wa/app/{}/msg/{}/read",app_id,message_id).as_str())
             .header("apikey", self.api_key.as_str())
             .send().await;
 
