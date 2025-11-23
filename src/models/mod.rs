@@ -54,6 +54,15 @@ pub struct Failed {
 
 }
 
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Reaction {
+    /// ID da mensagem original que recebeu a reação
+    pub id: String,
+    /// Emoji da reação, ex: "❤️", "👍"
+    pub emoji: String,
+}
+
 #[allow(non_snake_case)]
 #[derive(Serialize, Debug, Deserialize, Clone)]
 pub struct MessageEvent<T> {

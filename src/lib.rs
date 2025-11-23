@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use reqwest::{Client, Error, Response};
-use crate::models::{Audio, ButtonReply, Delivered, Enqueued, Failed, File, Image, ListReply, Location, MessageEvent, MessageGP, ParentMessage, QuickReply, Read, ResponseMessage, Sent, Text, Video};
+use crate::models::{Audio, ButtonReply, Delivered, Enqueued, Failed, File, Image, ListReply, Location, MessageEvent, MessageGP, ParentMessage, QuickReply, Reaction, Read, ResponseMessage, Sent, Text, Video};
 use serde_json::Value;
 use crate::extensions::remove_first_nine_from_brazilian_phone;
 
@@ -28,6 +28,8 @@ pub enum MessageType {
     QuickReply(ParentMessage<MessageGP<QuickReply>>),
     ButtonReply(ParentMessage<MessageGP<ButtonReply>>),
     ListReply(ParentMessage<MessageGP<ListReply>>),
+    Reaction(ParentMessage<MessageGP<Reaction>>),
+    
     Unknown,
 }
 
@@ -35,20 +37,7 @@ pub fn deserialize(value: &Value) -> MessageType {
     core::init(value)
 }
 
-/*pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}*/
 
 
 pub use models::GupshupMessage;

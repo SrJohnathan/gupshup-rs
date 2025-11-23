@@ -83,6 +83,13 @@ fn determine_message_type(message: &Value) -> MessageType {
                             return MessageType::ListReply(msg);
                         }
                     }
+
+                    "reaction" => {
+                        if let Ok(msg) = serde_json::from_str::<ParentMessage<MessageGP<Reaction>>>(&message.to_string())
+                        {
+                            return MessageType::Reaction(msg);
+                        }
+                    }
                     _ => {}
                 }
             }
