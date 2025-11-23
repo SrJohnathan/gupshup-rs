@@ -60,7 +60,7 @@ pub struct Reaction {
     /// ID da mensagem original que recebeu a reação
     pub id: String,
     /// Emoji da reação, ex: "❤️", "👍"
-    pub emoji: String,
+    pub emoji: Option<String>,
 }
 
 #[allow(non_snake_case)]
