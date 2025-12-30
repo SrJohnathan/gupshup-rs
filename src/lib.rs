@@ -90,6 +90,51 @@ impl GupshupMessage {
             Err(e) => { Err(e.to_string()) }
         }
     }
+
+    pub async fn send_template_message(&self,
+        send_phone:&str,
+        template_id: &str,
+        params: Vec<String>,
+    ) -> Result<ResponseMessage, String> {
+        let req: Client = Client::new();
+
+        let url =
+            "https://partner.gupshup.io/wa/api/v1/template/msg";
+
+
+
+        let params_json = serde_json::to_string(&params).unwrap();
+        let template_str = format!(r#"{{"id":"{}","params":{}}}"#, template_id, params_json);
+
+        let params =
+            [("channel", "whatsapp"),
+                ("source", self.phone_whatsapp.as_str()),
+                ("destination", send_phone) ,
+                ("message", &template_str),
+                ("disablePreview", "true"),
+                ("src.name", self.src_name.as_str()  ) ];
+
+        let response = req.post(url)
+            .header("apikey", self.api_key.as_str())
+            .header("Content-Type", "application/x-www-form-urlencoded")
+            // .header("Content-Length", content_length.to_string())
+            .form(&params)
+            .send().await;
+
+        match response {
+            Ok(x) => {
+                match    x.json::<ResponseMessage>().await {
+                    Ok(xx) => {
+                        Ok(xx)
+                    }
+                    Err(ee) => {
+                        Err(ee.to_string())
+                    }
+                }
+            }
+            Err(e) => { Err(e.to_string()) }
+    }
+    }
     
     pub async fn set_read_message(&self,app_id:String,message_id:String) -> Result<(), String> {
         let req: Client = Client::new();
