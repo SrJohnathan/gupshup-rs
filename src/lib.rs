@@ -110,7 +110,7 @@ impl GupshupMessage {
             [("channel", "whatsapp"),
                 ("source", self.phone_whatsapp.as_str()),
                 ("destination", send_phone) ,
-                ("message", &template_str),
+                ("template", &template_str),
                 ("disablePreview", "true"),
                 ("src.name", self.src_name.as_str()  ) ];
 
