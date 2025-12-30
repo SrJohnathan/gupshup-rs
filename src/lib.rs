@@ -95,11 +95,11 @@ impl GupshupMessage {
         send_phone:&str,
         template_id: &str,
         params: Vec<String>,
-    ) -> Result<ResponseMessage, String> {
+    ) -> Result<Value, String> {
         let req: Client = Client::new();
 
         let url =
-            "https://partner.gupshup.io/wa/api/v1/template/msg";
+            "https://api.gupshup.io/wa/api/v1/template/msg";
 
 
 
@@ -123,7 +123,9 @@ impl GupshupMessage {
 
         match response {
             Ok(x) => {
-                match    x.json::<ResponseMessage>().await {
+
+
+                match    x.json::<Value>().await {
                     Ok(xx) => {
                         Ok(xx)
                     }
