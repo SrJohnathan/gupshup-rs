@@ -14,7 +14,7 @@ pub async fn get_gupshup_templates(token: &str, app_id: &str) -> Result<Value, E
 
     let resp = client
         .get(&url)
-        .header("Authorization", token) // token direto, sem "Bearer"
+        .header("Authorization", token)
         .send()
         .await?
         .error_for_status()?
@@ -133,7 +133,8 @@ pub async fn create_gupshup_text_template(
 
     let resp = client
         .post(&url)
-        .header("Authorization", token)
+        .header("token", token)
+
         .header("Content-Type", "application/x-www-form-urlencoded")
         .form(&params)
         .send()

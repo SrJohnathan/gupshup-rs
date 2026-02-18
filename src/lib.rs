@@ -100,9 +100,7 @@ impl GupshupMessage {
 
         let url =
             "https://api.gupshup.io/wa/api/v1/template/msg";
-
-
-
+        
         let params_json = serde_json::to_string(&params).unwrap();
         let template_str = format!(r#"{{"id":"{}","params":{}}}"#, template_id, params_json);
 
