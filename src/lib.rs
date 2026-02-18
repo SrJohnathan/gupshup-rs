@@ -1,8 +1,8 @@
-use std::collections::HashMap;
-use reqwest::{Client, Error, Response};
+
+use reqwest::{Client};
 use crate::models::{Audio, ButtonReply, Delivered, Enqueued, Failed, File, Image, ListReply, Location, MessageEvent, MessageGP, ParentMessage, QuickReply, Reaction, Read, ResponseMessage, Sent, Text, Video};
 use serde_json::Value;
-use crate::extensions::remove_first_nine_from_brazilian_phone;
+
 
 mod core;
 pub mod models;
@@ -41,7 +41,7 @@ pub fn deserialize(value: &Value) -> MessageType {
 
 
 pub use models::GupshupMessage;
-use crate::templates::Res;
+
 
 impl GupshupMessage {
     pub fn new (app:&str,phone_whatsapp:&str,api_key:&str) ->Self {

@@ -322,7 +322,7 @@ pub struct OptionList {
 #[serde(rename_all = "camelCase")]
 pub struct ResponseMessage {
     pub status: String,
-    #[serde(rename = "messageId")]
+    #[serde(rename = "message_id")]
     pub message_id: String,
 }
 

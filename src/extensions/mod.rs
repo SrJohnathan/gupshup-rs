@@ -1,5 +1,5 @@
 
-
+/*#[warn(unused)]
 pub fn remove_first_nine_from_brazilian_phone(phone: &str) -> String {
     if phone.starts_with("55") {
         let ddi = &phone[0..2];
@@ -20,4 +20,4 @@ pub fn remove_first_nine_from_brazilian_phone(phone: &str) -> String {
     } else {
         phone.to_string()
     }
-}
+}*/

@@ -1,3 +1,5 @@
+
+
 use crate::models::template::CreateTemplateResponse;
 use reqwest::{Client, Error};
 use serde_json::Value;
@@ -23,11 +25,15 @@ pub async fn get_gupshup_templates(token: &str, app_id: &str) -> Result<Value, E
 
     Ok(resp)
 }
+
 #[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[allow(dead_code)]
 pub  struct Res 
 {
+
     status:String,
-    pub messageId: String
+    pub message_id: String
 }
 
 
@@ -79,7 +85,7 @@ pub async fn send_template_message(
         .json::<Res>()
         .await?;
 
-    Ok(res.messageId)
+    Ok(res.message_id)
 }
 
 pub async fn create_gupshup_text_template(
@@ -105,26 +111,26 @@ pub async fn create_gupshup_text_template(
     let client = Client::new();
 
     let mut params = HashMap::new();
-    params.insert("elementName", element_name);
+    params.insert("element_name", element_name);
     if let Some(lang) = language_code {
-        params.insert("languageCode", lang);
+        params.insert("language_code", lang);
     }
     params.insert("content", content);
     params.insert("category", category);
     params.insert("vertical", vertical);
-    params.insert("templateType", template_type);
+    params.insert("template_type", template_type);
     params.insert("example", example);
     if let Some(f) = footer {
         params.insert("footer", f);
     }
     if let Some(exh) = example_header {
-        params.insert("exampleHeader", exh);
+        params.insert("example_header", exh);
     }
     if let Some(true) = allow_category_change {
-        params.insert("allowTemplateCategoryChange", "true");
+        params.insert("allow_template_category_change", "true");
     }
     if let Some(true) = enable_sample {
-        params.insert("enableSample", "true");
+        params.insert("enable_sample", "true");
     }
 
     if let Some(btns) = buttons {
