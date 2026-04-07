@@ -111,26 +111,26 @@ pub async fn create_gupshup_text_template(
     let client = Client::new();
 
     let mut params = HashMap::new();
-    params.insert("element_name", element_name);
+    params.insert("elementName", element_name);
     if let Some(lang) = language_code {
-        params.insert("language_code", lang);
+        params.insert("languageCode", lang);
     }
     params.insert("content", content);
     params.insert("category", category);
     params.insert("vertical", vertical);
-    params.insert("template_type", template_type);
+    params.insert("templateType", template_type);
     params.insert("example", example);
     if let Some(f) = footer {
         params.insert("footer", f);
     }
     if let Some(exh) = example_header {
-        params.insert("example_header", exh);
+        params.insert("header", exh);
     }
     if let Some(true) = allow_category_change {
-        params.insert("allow_template_category_change", "true");
+        params.insert("allowTemplateCategoryChange", "true");
     }
     if let Some(true) = enable_sample {
-        params.insert("enable_sample", "true");
+        params.insert("enableSample", "true");
     }
 
     if let Some(btns) = buttons {
@@ -139,8 +139,7 @@ pub async fn create_gupshup_text_template(
 
     let resp = client
         .post(&url)
-        .header("token", token)
-
+        .header("Authorization", token)
         .header("Content-Type", "application/x-www-form-urlencoded")
         .form(&params)
         .send()
