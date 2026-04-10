@@ -3,7 +3,6 @@ use reqwest::{Client, Error};
 use serde::Deserialize;
 use serde_json::Value;
 use std::collections::HashMap;
-use std::io;
 
 pub async fn get_gupshup_templates(token: &str, app_id: &str) -> Result<Value, Error> {
     let url = format!(
@@ -153,29 +152,17 @@ pub async fn create_gupshup_text_template(
         params.insert("buttons", btns);
     }
 
-    let response = client
+    let resp = client
         .post(&url)
         .header("Authorization", token)
         .header("accept", "application/json")
         .header("Content-Type", "application/x-www-form-urlencoded")
         .form(&params)
         .send()
+        .await?
+        .error_for_status()?
+        .json::<CreateTemplateResponse>()
         .await?;
-
-    let status = response.status();
-    let body = response.text().await?;
-
-    if !status.is_success() {
-        return Err(io::Error::other(format!(
-            "Gupshup create template failed: status={} body={}",
-            status,
-            body
-        ))
-        .into());
-    }
-
-    let resp = serde_json::from_str::<CreateTemplateResponse>(&body)
-        .map_err(io::Error::other)?;
 
     Ok(resp)
 }
